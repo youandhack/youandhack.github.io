@@ -6,6 +6,7 @@
       <title>a38ka - YouAndHack!</title>
     <link rel="stylesheet" type="text/css" href="css/bootstrap.css">
       <link rel="stylesheet" type="text/css" href="css/main.css">
+  <link type="text/css" rel="stylesheet" href="css/styles/shCoreMidnight.css"/>
       <link rel="stylesheet" type="text/css" href="css/a38ka.css">
   </head>
     <body>
@@ -42,25 +43,71 @@
     </div>
   </div>
 
+<div class="col-lg-9">
 
+今回書いたスクリプトはPython2.7で書いてます。<br>
+Tkinterって何でこんなに、<a href="http://qiita.com/">qiita</a>に情報少ないの・・・<br>
+辛く長い戦いだった・・・ <br>
+  <div class="bs-component">
+    <pre class="brush: python;">
+# coding:utf-8
+import Tkinter
+import requests
+import json
 
+URL = "" # Slackの投稿したいチャンネルに合わせたWebHooksを取得しよう
 
-    <!-- Headings -->
+root = Tkinter.Tk()
+root.title("Slack投稿")
+root.geometry("400x100")
 
-      <div class="col-lg-4">
-        <div class="bs-component">
-          Example body text
-          Nullam quis risus eget urna mollis ornare vel eu leo. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Nullam id dolor id nibh ultricies vehicula.
-          This line of text is meant to be treated as fine print.
-          <p>The following snippet of text is rendered as bold text</p>
-          <p>The following snippet of text is rendered as italicized text</em>.</p>
-          <p>An abbreviation of the word attribute is attr.</p>
+def getSlackPost(event):
+  slackpost = postText.get()
+  requests.post(URL, data = json.dumps({
+    'text': slackpost, # 投稿するテキスト
+    'username': 'SlackBot', # 投稿のユーザー名
+    'icon_emoji': ':game_dice:', # 投稿のプロフィール画像に入れる絵文字
+    'link_names': 1, # メンションを有効にする
+  }))
+  statusLabel.set("投稿しました")
+
+def clearSlackPost(event):
+  statusLabel.set("投稿内容を削除しました")
+  postText.set("")
+
+statusLabel = Tkinter.StringVar()
+statusLabel.set("投稿内容を入力してください")
+
+postText = Tkinter.StringVar()
+postText.set("")
+
+entry = Tkinter.Entry(root, textvariable=postText, width=40)
+entry.place(x=10, y=15)
+
+postbutton = Tkinter.Button(root, text="投稿", width=0)
+postbutton.bind("&lt;Button-1&gt;", getSlackPost)
+postbutton.bind("&lt;Enter&gt;", getSlackPost)
+postbutton.place(x=300, y=10)
+
+label = Tkinter.Label(root, textvariable=statusLabel, width=30)
+label.place(x=0, y=40)
+
+clearbutton = Tkinter.Button(root, text="削除", width=0)
+clearbutton.bind("&lt;Button-1&gt;", clearSlackPost)
+clearbutton.place(x=340,y=10)
+
+root.mainloop()
+
+    </pre>
+  </div>
 </div>
-        </div>
 
 
 
       <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
       <script src="js/bootstrap.min.js"></script>
+  <script type="text/javascript" src="js/scripts/shCore.js"></script>
+  <script type="text/javascript" src="js/scripts/shBrushPython.js"></script>
+  <script type="text/javascript">SyntaxHighlighter.all();</script>
     </body>
 </html>
