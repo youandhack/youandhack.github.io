@@ -1,0 +1,10 @@
+.a38ka {
+	position: absolute;
+	right: 20px;
+	bottom: -20px;
+	width: 420px;
+	height: 594px;
+	background-image: url("../img/a38ka.png");
+	background-repeat: no-repeat;
+	opacity: 0.3;
+}
